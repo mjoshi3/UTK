@@ -1,8 +1,8 @@
 ## Welcome to GitHub Pages
+- [**MyUTK**](https://myutk.utk.edu/)
+- [**Canvas**](utk.instructure.com)
+- 
 
-You can use the [editor on GitHub](https://github.com/mjoshi3/UTK/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
 ### Markdown
 
@@ -37,4 +37,5 @@ Your Pages site will use the layout and styles from the Jekyll theme you have se
 Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
 
 ### Classes
+  - [**Fall 2018**](https://mjoshi3.github.io/UTK/Classes/Fall2018)
   - [**Spring 2019**](https://mjoshi3.github.io/UTK/Classes/Spring2019)
