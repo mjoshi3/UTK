@@ -1,0 +1,160 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ECE 316 Project #1 Question #3</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-02-18"><meta name="DC.source" content="Problem3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>ECE 316 Project #1 Question #3</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Code to Reconstruct 3 Different Signals</a></li></ul></div><h2 id="1">Code to Reconstruct 3 Different Signals</h2><pre class="codeinput">Ts = 1/75;
+Tc = 1/10000;
+tmax = 0.5;
+tmin = -0.5;
+tsum = tmax-tmin;
+t = (tmin:Tc:tmax);
+t1 = (tmin:Ts:tmax);
+fig = 1;
+<span class="comment">%Test 3 Different Signals with /omegam that does not fit the Aliasing Condition</span>
+<span class="keyword">for</span> j = [85,100,110]
+    wm = j;
+    OriginalSignal = sin(wm*pi*t);
+    SampledSignal = sin(wm*pi*t1);
+    ReconstructedSignal = zeros(1,(tsum/Tc)+1);
+    <span class="comment">%Equation to Reconstruct Signal</span>
+    <span class="keyword">for</span> i = 1:1:1/Ts+1
+        ReconstructedSignal = ReconstructedSignal + SampledSignal(i)*sinc((1/Ts)*((tmin:Tc:tmax)-(i-((0.5/Ts)+1))/(1/Ts)));
+    <span class="keyword">end</span>
+    <span class="comment">%Calculates the Energy Difference Between the Original Signal and the</span>
+    <span class="comment">%Reconstructed Signal</span>
+    Energy = OriginalSignal-ReconstructedSignal;
+    <span class="comment">%Plots the Orignal and Reconstructed Signal on the Same Top Subplot</span>
+    <span class="comment">%Plots the Energy Difference on the Bottom Subplot</span>
+    <span class="comment">%The Reconstructed Signal and the Original Signal Should Not Overlap</span>
+    figure(fig)
+        subplot(2,1,1);
+            plot(t,OriginalSignal);
+            hold <span class="string">on</span>;
+            plot(t,ReconstructedSignal,<span class="string">'--r'</span>);
+            hold <span class="string">off</span>;
+            xlabel(<span class="string">"Time (t)"</span>);
+            ylabel(<span class="string">"Amplitude"</span>);
+            title(strcat(<span class="string">"Original Signal vs. Reconstructed Signal with \omega_{m} = "</span>,num2str(2*wm),<span class="string">"\pi and \omega_{s} = "</span>,num2str(1/Ts),<span class="string">"\pi"</span>));
+            legend({<span class="string">'Original Signal'</span>,<span class="string">'Reconstructed Signal'</span>});
+        <span class="comment">%fig = fig+1;</span>
+        <span class="comment">%figure(fig)</span>
+        subplot(2,1,2);
+            plot(t,Energy);
+            title(<span class="string">"Energy vs. Time"</span>)
+            xlabel(<span class="string">"Time (t)"</span>);
+            ylabel(<span class="string">"Energy"</span>);
+    fig = fig+1;
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="Problem3_01.png" alt=""> <img vspace="5" hspace="5" src="Problem3_02.png" alt=""> <img vspace="5" hspace="5" src="Problem3_03.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% ECE 316 Project #1 Question #3
+%% Code to Reconstruct 3 Different Signals
+Ts = 1/75;
+Tc = 1/10000;
+tmax = 0.5;
+tmin = -0.5;
+tsum = tmax-tmin;
+t = (tmin:Tc:tmax);
+t1 = (tmin:Ts:tmax);
+fig = 1;
+%Test 3 Different Signals with /omegam that does not fit the Aliasing Condition
+for j = [85,100,110]
+    wm = j;
+    OriginalSignal = sin(wm*pi*t);
+    SampledSignal = sin(wm*pi*t1);
+    ReconstructedSignal = zeros(1,(tsum/Tc)+1);
+    %Equation to Reconstruct Signal
+    for i = 1:1:1/Ts+1
+        ReconstructedSignal = ReconstructedSignal + SampledSignal(i)*sinc((1/Ts)*((tmin:Tc:tmax)-(i-((0.5/Ts)+1))/(1/Ts)));
+    end
+    %Calculates the Energy Difference Between the Original Signal and the
+    %Reconstructed Signal
+    Energy = OriginalSignal-ReconstructedSignal;
+    %Plots the Orignal and Reconstructed Signal on the Same Top Subplot
+    %Plots the Energy Difference on the Bottom Subplot
+    %The Reconstructed Signal and the Original Signal Should Not Overlap
+    figure(fig)
+        subplot(2,1,1);
+            plot(t,OriginalSignal);
+            hold on;
+            plot(t,ReconstructedSignal,'REPLACE_WITH_DASH_DASHr');
+            hold off;
+            xlabel("Time (t)");
+            ylabel("Amplitude");
+            title(strcat("Original Signal vs. Reconstructed Signal with \omega_{m} = ",num2str(2*wm),"\pi and \omega_{s} = ",num2str(1/Ts),"\pi"));
+            legend({'Original Signal','Reconstructed Signal'});
+        %fig = fig+1;
+        %figure(fig)
+        subplot(2,1,2);
+            plot(t,Energy);
+            title("Energy vs. Time")
+            xlabel("Time (t)");
+            ylabel("Energy");
+    fig = fig+1;
+end
+##### SOURCE END #####
+--></body></html>
