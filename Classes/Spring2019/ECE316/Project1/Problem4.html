@@ -1,0 +1,143 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ECE 316 Project #1 Question #4</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-02-19"><meta name="DC.source" content="Problem4.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>ECE 316 Project #1 Question #4</h1><pre class="codeinput">Ts = 1/500;
+Tc = 1/10000;
+tmax = 0.5;
+tmin = -0.5;
+start = 4007;
+tsum = tmax-tmin;
+t = (tmin:Tc:tmax);
+t1 = (tmin:Ts:tmax);
+SampledSignal = sin(40*pi*t1)-sin(20*pi*t1)+sin(30*pi*t1);
+<span class="comment">%plot(SampledSignal);</span>
+ReconstructedSignal = zeros(1,10001);
+Sincs = zeros(1,(tsum/Tc)+1);
+plottedTime = t(start:350+start);
+<span class="comment">%Equation to Reconstruct Signal</span>
+<span class="keyword">for</span> i = 1:1:1/Ts+1
+    <span class="comment">%Calculates the Sinc Signals for different i values</span>
+    SINC = SampledSignal(i)*sinc((1/Ts)*(t-(i-((0.5/Ts)+1))/(1/Ts)));
+    ReconstructedSignal = ReconstructedSignal + SINC;
+    <span class="comment">%Takes a 35 milli-second segment of the Sinc Waves</span>
+    plottedSINC = (SINC(start:350+start));
+    figure(1)
+    hold <span class="string">on</span>;
+    <span class="comment">%Plots the Sinc Waves for all the i values</span>
+    plot(plottedTime,plottedSINC);
+    <span class="comment">%plot(SINC);</span>
+<span class="keyword">end</span>
+<span class="comment">%Plots the segment of the Reconstructed Wave</span>
+    <span class="comment">%Takes a 35 milli-second segment of the Reconstructed Wave</span>
+    plottedReconstructedSignal = ReconstructedSignal(start:350+start);
+    <span class="comment">%plot(ReconstructedSignal);</span>
+    plot(plottedTime,plottedReconstructedSignal);
+    hold <span class="string">off</span>;
+    xlabel(<span class="string">"Time (t)"</span>);
+    ylabel(<span class="string">"Amplitude"</span>);
+    title(<span class="string">"Reconstructed Signal with the Sinc Waves"</span>);
+</pre><img vspace="5" hspace="5" src="Problem4_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% ECE 316 Project #1 Question #4
+Ts = 1/500;
+Tc = 1/10000;
+tmax = 0.5;
+tmin = -0.5;
+start = 4007;
+tsum = tmax-tmin;
+t = (tmin:Tc:tmax);
+t1 = (tmin:Ts:tmax);
+SampledSignal = sin(40*pi*t1)-sin(20*pi*t1)+sin(30*pi*t1);
+%plot(SampledSignal);
+ReconstructedSignal = zeros(1,10001);
+Sincs = zeros(1,(tsum/Tc)+1);
+plottedTime = t(start:350+start);
+%Equation to Reconstruct Signal
+for i = 1:1:1/Ts+1
+    %Calculates the Sinc Signals for different i values
+    SINC = SampledSignal(i)*sinc((1/Ts)*(t-(i-((0.5/Ts)+1))/(1/Ts)));
+    ReconstructedSignal = ReconstructedSignal + SINC;
+    %Takes a 35 milli-second segment of the Sinc Waves
+    plottedSINC = (SINC(start:350+start));
+    figure(1)
+    hold on;
+    %Plots the Sinc Waves for all the i values
+    plot(plottedTime,plottedSINC);
+    %plot(SINC);
+end
+%Plots the segment of the Reconstructed Wave
+    %Takes a 35 milli-second segment of the Reconstructed Wave
+    plottedReconstructedSignal = ReconstructedSignal(start:350+start);
+    %plot(ReconstructedSignal);
+    plot(plottedTime,plottedReconstructedSignal);
+    hold off;
+    xlabel("Time (t)");
+    ylabel("Amplitude");
+    title("Reconstructed Signal with the Sinc Waves");
+##### SOURCE END #####
+--></body></html>
